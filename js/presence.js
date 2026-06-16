@@ -20,6 +20,8 @@ export async function updatePresence(currentUser, currentRoom) {
 // ===== LOAD ONLINE USERS =====
 
 export async function loadOnlineUsers(currentRoom) {
+
+ console.log("loadOnlineUsers running");
   const cutoff = new Date(
     Date.now() - 30000
   ).toISOString();
