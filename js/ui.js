@@ -47,7 +47,6 @@ export function updateOnlineCount(count) {
   if (badge) {
     badge.textContent = count
   }
-  console.log("Online users:", data.length);
 }
 
 export function displayOnlineUsers(users) {
@@ -70,3 +69,6 @@ export function displayOnlineUsers(users) {
     membersList.appendChild(div);
   });
 }
+
+
+// it freaking works now
