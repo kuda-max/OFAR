@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OFAR- Madissi atheke</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/chat.css">
+    <script src="js/theme.js"></script>
+<body>
+
+    <div id="joinScreen" class="bg-grid">
+        <div class="blur-orb-1"></div>
+        <div class="blur-orb-2"></div>
+
+        <div class="join-card">
+            <div class="card-inner glass-strong">
+                <div class="join-header">
+                    <div class="icon-wrapper" style="width: 64px; height: 64px; margin-bottom: 16px;">
+                        <i data-lucide="messages-square" style="width: 32px; height: 32px; color: white;"></i>
+                    </div>
+                    <h1 class="gradient-text">OFAR</h1>
+                    <p>madissi atheke</p>
+                </div>
+
+                <div>
+                    <div class="form-control">
+                        <label class="form-label">Dzina</label>
+                        <div class="input-rel-container">
+                            <i data-lucide="user"></i>
+                            <input id="usernameInput" type="text" placeholder="Enter your name..." class="custom-input" maxlength="20" autocomplete="off">
+                        </div>
+                    </div>
+
+                    <div class="form-control">
+                        <label class="form-label">Room Code</label>
+                        <div class="input-rel-container">
+                            <i data-lucide="hash"></i>
+                            <input id="roomInput" type="text" placeholder="general" class="custom-input" maxlength="30" autocomplete="off" value="general">
+                        </div>
+                    </div>
+
+                    <div class="form-control">
+                        <label class="form-label">sankhani Avatar</label>
+                        <div id="avatarPicker"></div>
+                    </div>
+
+                    <button id="joinBtn" class="gradient-btn">
+                        tilowe ntika
+                    </button>
+                </div>
+
+                <p class="info-hint">Open in multiple tabs to test real-time chat!</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="chatScreen" class="hidden">
+        <header class="glass-strong">
+            <div class="header-left">
+                <button id="menuBtn" class="btn-icon md:hidden">
+                    <i data-lucide="menu" style="width: 20px; height: 20px;"></i>
+                </button>
+                <div class="header-meta">
+                    <div class="icon-wrapper" style="width: 40px; height: 40px;">
+                        <i data-lucide="messages-square" style="width: 20px; height: 20px; color: white;"></i>
+                    </div>
+                    <div class="room-title">
+                        <h2>OFAR</h2>
+                        <p>Room: <span id="roomDisplay"></span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="header-right">
+                <button id="themeToggleBtn" class="btn-icon" title="Toggle Light/Dark Mode">
+                    <i id="themeToggleIcon" data-lucide="sun" style="width: 18px; height: 18px;"></i>
+                </button>
+                
+                <div id="memberCount">
+                    <i data-lucide="users" style="width: 14px; height: 14px;"></i>
+                    <span id="onlineCount">1</span> online
+                </div>
+                <button id="leaveBtn" class="btn-icon" title="Leave room">
+                    <i data-lucide="log-out" style="width: 18px; height: 18px;"></i>
+                </button>
+            </div>
+        </header>
+
+        <div class="chat-body-container">
+            <aside id="sidebar" class="glass">
+                <div class="sidebar-header">
+                    <h3>Members Online</h3>
+                </div>
+                <div id="membersList"></div>
+            </aside>
+
+            <div id="sidebarOverlay" class="hidden" onclick="toggleSidebar()"></div>
+            <aside id="mobileSidebar" class="hidden glass-strong">
+                <div class="sidebar-header" style="display: flex; align-items: center; justify-content: space-between;">
+                    <h3>Members Online</h3>
+                    <button onclick="toggleSidebar()" class="btn-icon" style="padding: 4px;"><i data-lucide="x" style="width: 16px; height: 16px;"></i></button>
+                </div>
+                <div id="mobileMembersList"></div>
+            </aside>
+
+            <main class="chat-canvas">
+                <div id="messagesContainer" class="bg-grid">
+                    <div id="messages"></div>
+                </div>
+
+                <div id="typingIndicator" class="hidden">
+                    <div style="display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text-muted);">
+                        <span id="typingName"></span>
+                        <span style="display: flex; gap: 2px;">
+                            <span class="typing-dot"></span>
+                            <span class="typing-dot"></span>
+                            <span class="typing-dot"></span>
+                        </span>
+                    </div>
+                </div>
+
+                <div id="uploadPreview" class="hidden">
+                    <div class="preview-box glass-strong">
+                        <div id="previewContent"></div>
+                        <div style="flex: 1; min-width: 0;">
+                            <p id="previewName" style="font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"></p>
+                            <p id="previewSize" style="font-size: 12px; color: var(--text-muted);"></p>
+                        </div>
+                        <button id="clearPreview" class="btn-icon">
+                            <i data-lucide="x" style="width: 16px; height: 16px;"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="input-bar-wrapper glass-strong">
+                    <div class="input-bar-inner">
+                        <input type="file" id="fileInput" accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.zip,.rar,.csv,.json">
+                        <button id="attachBtn" class="btn-icon" title="Attach file" style="padding: 10px;">
+                            <i data-lucide="paperclip" style="width: 20px; height: 20px;"></i>
+                        </button>
+                        <div class="textarea-container">
+                            <textarea id="messageInput" rows="1" placeholder="Type a message..." maxlength="2000"></textarea>
+                            <button id="emojiBtn" title="Emoji">
+                                <i data-lucide="smile" style="width: 18px; height: 18px;"></i>
+                            </button>
+                        </div>
+                        <button id="sendBtn" class="gradient-btn" title="Send message">
+                            <i data-lucide="send" style="width: 20px; height: 20px;"></i>
+                        </button>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <div id="emojiPicker" class="hidden glass-strong" style="bottom:80px; right:20px;">
+        <div id="emojiGrid"></div>
+    </div>
+
+    <div id="lightbox" class="hidden" onclick="closeLightbox()">
+        <button class="btn-icon" style="position: absolute; top: 16px; right: 16px; background: rgba(255,255,255,0.1); color: white; border-radius: 9999px;">
+            <i data-lucide="x" style="width: 24px; height: 24px;"></i>
+        </button>
+        <img id="lightboxImg" onclick="event.stopPropagation()">
+        <a id="lightboxDownload" download class="gradient-btn" style="position: absolute; bottom: 24px; right: 24px; padding: 12px; border-radius: 9999px; display: inline-flex;" onclick="event.stopPropagation()">
+            <i data-lucide="download" style="width: 20px; height: 20px;"></i>
+        </a>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>

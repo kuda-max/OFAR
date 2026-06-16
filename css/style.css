@@ -1,0 +1,154 @@
+/* ==========================================================================
+   CHAT MESSAGES & INTERACTIVE COMPONENT STYLES
+   ========================================================================== */
+
+/* Core Scrollbars */
+* { 
+    scrollbar-width: thin; 
+    scrollbar-color: var(--primary-500) transparent; 
+}
+*::-webkit-scrollbar { width: 6px; }
+*::-webkit-scrollbar-track { background: transparent; }
+*::-webkit-scrollbar-thumb { 
+    background: var(--primary-500); 
+    border-radius: 3px; 
+}
+
+/* Chat Canvas Background Overwrite */
+.bg-grid { 
+    background-image: radial-gradient(rgba(99, 102, 241, 0.15) 1px, transparent 1px); 
+    background-size: 24px 24px; 
+}
+
+/* Message Node Wrapper & Entrance Animation */
+.msg-enter { 
+    animation: msgSlide 0.35s cubic-bezier(0.16, 1, 0.3, 1); 
+}
+@keyframes msgSlide { 
+    from { opacity: 0; transform: translateY(12px) scale(0.97); } 
+    to { opacity: 1; transform: translateY(0) scale(1); } 
+}
+
+/* Dynamic Previews & Custom Media Blocks Inside Messages */
+.image-preview { 
+    max-height: 300px; 
+    max-width: 100%; 
+    width: 280px;
+    object-fit: cover; 
+    border-radius: 12px; 
+    cursor: pointer; 
+    transition: transform 0.2s ease, box-shadow 0.2s ease; 
+}
+.image-preview:hover { 
+    transform: scale(1.02); 
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+}
+
+.file-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-color);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+}
+.file-card:hover { 
+    transform: translateY(-2px); 
+    box-shadow: 0 8px 25px rgba(99, 102, 241, 0.3); 
+}
+
+/* System Messages (e.g., "User joined the chat") */
+.system-message {
+    text-align: center;
+    font-size: 12px;
+    color: var(--text-muted);
+    margin: 16px auto;
+    width: 100%;
+}
+
+/* Extra Micro-Interactions from your context */
+.emoji-pop { 
+    animation: emojiPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); 
+}
+@keyframes emojiPop { 
+    from { transform: scale(0); } 
+    to { transform: scale(1); } 
+}
+
+@keyframes float { 
+    0%, 100% { transform: translateY(0); } 
+    50% { transform: translateY(-8px); } 
+}
+.float-anim { animation: float 3s ease-in-out infinite; }
+
+.online-ring { position: relative; }
+.online-ring::after { 
+    content: ''; 
+    position: absolute; 
+    inset: -3px; 
+    border-radius: 50%; 
+    border: 2px solid #22c55e; 
+    animation: pulse-ring 2s ease-out infinite; 
+}
+@keyframes pulse-ring { 
+    0% { transform: scale(0.9); opacity: 0.7; } 
+    100% { transform: scale(1.5); opacity: 0; } 
+}
+
+/* Typing Indicator Override */
+@keyframes typingBounce { 
+    0%, 60%, 100% { transform: translateY(0); } 
+    30% { transform: translateY(-6px); } 
+}
+.typing-dot { 
+    animation: typingBounce 1.4s infinite ease-in-out; 
+}
+
+/* Lightbox Animation Setup */
+.lightbox { animation: lightboxIn 0.25s ease-out; }
+@keyframes lightboxIn { 
+    from { opacity: 0; transform: scale(0.9); } 
+    to { opacity: 1; transform: scale(1); } 
+}
+/* online members list */
+.member-item{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:10px;
+    border-radius:10px;
+    margin-bottom:6px;
+}
+
+.member-item:hover{
+    background:rgba(255,255,255,0.05);
+}
+
+.member-avatar{
+    position:relative;
+    width:32px;
+    height:32px;
+    border-radius:50%;
+    background:#5865f2;
+}
+
+.online-dot{
+    position:absolute;
+    right:-2px;
+    bottom:-2px;
+    width:10px;
+    height:10px;
+    border-radius:50%;
+    background:#22c55e;
+    border:2px solid #0b1020;
+}
+
+.member-name{
+    font-size:14px;
+    font-weight:500;
+}

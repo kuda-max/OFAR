@@ -1,0 +1,65 @@
+
+/* Message rows */
+
+.message-row{
+    display:flex;
+    width:100%;
+    margin-bottom:14px;
+}
+
+.message-row.me{
+    justify-content:flex-end;
+}
+
+.message-row.other{
+    justify-content:flex-start;
+}
+
+/* Wrapper */
+
+.message-wrapper{
+    max-width:70%;
+}
+
+/* Username + time */
+
+.message-meta{
+    font-size:12px;
+    color:#8b92b0;
+    margin-bottom:4px;
+}
+
+/* Bubble */
+
+.message-bubble{
+    padding:12px 16px;
+    border-radius:18px;
+    word-wrap:break-word;
+    line-height:1.4;
+}
+
+/* Your messages */
+
+.message-bubble.me{
+    background:linear-gradient(
+        135deg,
+        #6366f1,
+        #8b5cf6
+    );
+
+    color:white;
+
+    border-bottom-right-radius:6px;
+}
+
+/* Other messages */
+
+.message-bubble.other{
+    background:rgba(255,255,255,0.08);
+
+    color:white;
+
+    border:1px solid rgba(255,255,255,0.05);
+
+    border-bottom-left-radius:6px;
+}
