@@ -232,7 +232,7 @@
            MAIN CHAT SCREEN STYLES
            ========================================================================== */
         #chatScreen {
-            height: 100vh;
+            height: 100dvh;
             display: flex;
             flex-direction: column;
         }
@@ -394,11 +394,13 @@
         }
 
         /* Input Controls Bar */
-        .input-bar-wrapper {
-            flex-shrink: 0;
-            border-top: 1px solid var(--border-color);
-            padding: 12px;
-        }
+.input-bar-wrapper {
+    flex-shrink: 0;
+    position: sticky;
+    bottom: 0;
+    z-index: 20;
+    background: red !important;
+}
         .input-bar-inner {
             max-width: 48rem;
             margin: 0 auto;
@@ -416,7 +418,7 @@
 
         #messageInput {
             width: 100%;
-            background: var(--input-bg);
+            background:red;
             border: 1px solid var(--border-color);
             border-radius: 12px;
             padding: 10px 48px 10px 16px;
@@ -424,6 +426,7 @@
             color: var(--text-main);
             outline: none;
             resize: none;
+            min-height: 44px;
             max-height: 128px;
             font-family: inherit;
             transition: all 0.2s ease;
