@@ -1,6 +1,6 @@
 // ===== UI HELPERS =====
 
-import { messagesEl, messagesContainer, membersList, mobileMembersList } from "./dom.js";
+import { messagesEl, messagesContainer, membersList, mobileMembersList} from "./dom.js";
 
 export function scrollToBottom() {
   messagesContainer.scrollTop = messagesContainer.scrollHeight;

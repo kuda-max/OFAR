@@ -6,8 +6,6 @@ import { messagesEl } from "./dom.js";
 
 let realtimeChannel = null;
 
-
-
 // ===== LOAD HISTORY =====
 
 export async function loadMessages(currentRoom, currentUser) {
@@ -79,21 +77,4 @@ export function unsubscribeFromMessages() {
     supabaseClient.removeChannel(realtimeChannel);
     realtimeChannel = null;
   }
-}
-
-// ===== LOAD TYPING USERS =====
-
-export async function loadTypingUsers(currentRoom) {
-  const { data, error } = await supabaseClient
-    .from("typing_status")
-    .select("*")
-    .eq("room", currentRoom)
-    .eq("is_typing", true);
-
-  if (error) {
-    console.error(error);
-    return [];
-  }
-
-  return data || [];
 }

@@ -1,4 +1,5 @@
 // ===== MAIN APP =====
+import { toggleSidebar } from "./ui.js";
 import { 
   joinBtn, sendBtn, messageInput, usernameInput, roomInput, leaveBtn 
 } from "./dom.js";
@@ -8,7 +9,6 @@ import { getSavedUsername, getSavedRoom } from "./storage.js";
 
 let currentUser = null;
 let currentRoom = "general";
-let typingInterval = null;
 
 // ===== INIT =====
 
@@ -33,7 +33,6 @@ joinBtn.addEventListener("click", async () => {
   if (await joinChat(username, room)) {
     currentUser = username;
     currentRoom = room;
-
   }
 });
 
@@ -63,13 +62,16 @@ leaveBtn.addEventListener("click", async () => {
   if (!confirmed) return;
 
   await leaveChat(currentUser);
-
-  
   currentUser = null;
   currentRoom = "general";
 });
 
-
 // ===== START APP =====
 
+
 initApp();
+
+
+
+menuBtn.addEventListener("click", toggleSidebar);
+closeMenuBtn.addEventListener("click", toggleSidebar);
