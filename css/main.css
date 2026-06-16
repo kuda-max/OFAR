@@ -418,7 +418,7 @@
 
         #messageInput {
             width: 100%;
-            background:red;
+            background: var(--input-bg);
             border: 1px solid var(--border-color);
             border-radius: 12px;
             padding: 10px 48px 10px 16px;
