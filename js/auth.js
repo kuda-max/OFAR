@@ -95,3 +95,37 @@ export async function leaveChat(currentUser) {
   messagesEl.innerHTML = "";
   usernameInput.value = "";
 }
+
+//typing users
+async function loadTypingUsers() {
+
+    const cutoff = new Date(
+        Date.now() - 3000
+    ).toISOString();
+
+    const { data } = await supabaseClient
+        .from("typing_status")
+        .select("*")
+        .eq("room", currentRoom)
+        .eq("is_typing", true)
+        .gte("updated_at", cutoff);
+
+    const users = data
+        .filter(u => u.username !== currentUser)
+        .map(u => u.username);
+
+    const indicator =
+        document.getElementById("typingIndicator");
+
+    if (users.length === 0) {
+        indicator.textContent = "";
+    }
+    else if (users.length === 1) {
+        indicator.textContent =
+            `${users[0]} is typing...`;
+    }
+    else {
+        indicator.textContent =
+            `${users.length} people are typing...`;
+    }
+}
