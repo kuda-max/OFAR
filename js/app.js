@@ -1,5 +1,5 @@
 // ===== MAIN APP =====
-
+import { toggleSidebar } from "./ui.js";
 import { 
   joinBtn, sendBtn, messageInput, usernameInput, roomInput, leaveBtn 
 } from "./dom.js";
@@ -68,4 +68,10 @@ leaveBtn.addEventListener("click", async () => {
 
 // ===== START APP =====
 
+
 initApp();
+
+
+
+menuBtn.addEventListener("click", toggleSidebar);
+closeMenuBtn.addEventListener("click", toggleSidebar);

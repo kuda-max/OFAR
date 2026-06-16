@@ -503,3 +503,7 @@
         z{
             background:red;
         }
+
+        .hidden {
+    display: none !important;
+}

@@ -23,4 +23,6 @@ export const sendBtn = document.getElementById("sendBtn");
 // Online users
 export const onlineUsersEl = document.getElementById("onlineUsers");
 export const membersList = document.getElementById("membersList");
+export const mobileMembersList = document.getElementById("mobileMembersList");
 export const leaveBtn = document.getElementById("leaveBtn");
+

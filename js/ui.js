@@ -1,6 +1,6 @@
 // ===== UI HELPERS =====
 
-import { messagesEl, messagesContainer, membersList } from "./dom.js";
+import { messagesEl, messagesContainer, membersList, mobileMembersList} from "./dom.js";
 
 export function scrollToBottom() {
   messagesContainer.scrollTop = messagesContainer.scrollHeight;
@@ -49,8 +49,12 @@ export function updateOnlineCount(count) {
   }
 }
 
+
+//show the people in the room, and the green dot next to their name if they are online
 export function displayOnlineUsers(users) {
   membersList.innerHTML = "";
+  mobileMembersList.innerHTML = "";
+
 
   users.forEach(user => {
     const div = document.createElement("div");
@@ -67,8 +71,20 @@ export function displayOnlineUsers(users) {
     `;
 
     membersList.appendChild(div);
+    mobileMembersList.appendChild(div.cloneNode(true));
   });
 }
 
 
 // it freaking works now
+export function toggleSidebar() {
+
+    const sidebar =
+        document.getElementById("mobileSidebar");
+
+    const overlay =
+        document.getElementById("sidebarOverlay");
+
+    sidebar.classList.toggle("hidden");
+    overlay.classList.toggle("hidden");
+}
