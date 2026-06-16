@@ -20,8 +20,6 @@ export async function updatePresence(currentUser, currentRoom) {
 // ===== LOAD ONLINE USERS =====
 
 export async function loadOnlineUsers(currentRoom) {
- console.log("currentRoom:", currentRoom);
- console.log("loadOnlineUsers running");
   const cutoff = new Date(
     Date.now() - 30000
   ).toISOString();
@@ -51,3 +49,5 @@ export async function removeFromPresence(currentUser) {
     .delete()
     .eq("username", currentUser);
 }
+
+//removed logs
