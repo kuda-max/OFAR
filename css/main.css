@@ -394,13 +394,12 @@
         }
 
         /* Input Controls Bar */
-.input-bar-wrapper {
-    flex-shrink: 0;
-    position: sticky;
-    bottom: 0;
-    z-index: 20;
-    background: red !important;
-}
+        .input-bar-wrapper {
+            flex-shrink: 0;
+            position: sticky;
+            bottom: 0;
+            z-index: 20;
+        }
         .input-bar-inner {
             max-width: 48rem;
             margin: 0 auto;
