@@ -43,9 +43,9 @@ export function addMessage(msg, currentUser) {
 // ===== ONLINE USERS UI =====
 
 export function updateOnlineCount(count) {
-  const badge = document.querySelector(".online-count");
+  const badge = document.getElementById("onlinecount");
   if (badge) {
-    badge.textContent = `${count} online`;
+    badge.textContent = count
   }
 }
 
