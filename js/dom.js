@@ -34,3 +34,6 @@ export const fileInput = document.getElementById("fileInput");
 export const attachBtn = document.getElementById("attachBtn");
 export const lightbox =
     document.getElementById("lightbox");
+
+export const uploadStatus =
+    document.getElementById("uploadStatus");

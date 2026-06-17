@@ -184,3 +184,16 @@
     background: var(--primary-600);
 
 }
+
+.upload-status {
+
+    text-align: center;
+
+    font-size: 13px;
+
+    min-height: 18px;
+
+    margin-bottom: 6px;
+
+    color: var(--text-placeholder);
+}

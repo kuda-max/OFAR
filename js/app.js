@@ -5,7 +5,7 @@
 // - Delegates auth, messaging and storage to other modules
 import { toggleSidebar } from "./ui.js";
 import { 
-  joinBtn, sendBtn, messageInput, usernameInput, roomInput, leaveBtn, lightbox 
+  joinBtn, sendBtn, messageInput, usernameInput, roomInput, leaveBtn, lightbox ,uploadStatus
 } from "./dom.js";
 import { joinChat, leaveChat } from "./auth.js";
 import { sendMessage } from "./messages.js";
@@ -58,18 +58,61 @@ sendBtn.addEventListener("click", async () => {
 
   if (!text && !file) return;
 
-  if (currentUser) {
+  try {
 
-    await sendMessage(
-      text,
-      currentUser,
-      currentRoom,
-      file
-    );
+    sendBtn.disabled = true;
 
-    messageInput.value = "";
+    if (file) {
 
-    fileInput.value = "";
+      uploadStatus.textContent =
+        `Uploading ${file.name}...`;
+
+    } else {
+
+      uploadStatus.textContent =
+        "Sending message...";
+    }
+
+    if (currentUser) {
+
+      await sendMessage(
+        text,
+        currentUser,
+        currentRoom,
+        file
+      );
+
+      messageInput.value = "";
+
+      fileInput.value = "";
+    }
+
+    uploadStatus.textContent =
+      "✅ Sent";
+
+    setTimeout(() => {
+
+      uploadStatus.textContent = "";
+
+    }, 1500);
+
+  } catch (error) {
+
+    console.error(error);
+
+    uploadStatus.textContent =
+      "❌ Upload failed";
+
+    setTimeout(() => {
+
+      uploadStatus.textContent = "";
+
+    }, 3000);
+
+  } finally {
+
+    sendBtn.disabled = false;
+
   }
 
 });
