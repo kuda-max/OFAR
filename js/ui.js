@@ -36,19 +36,42 @@ export function addMessage(msg, currentUser) {
   let content = "";
 
   if (
-    msg.file_type &&
-    msg.file_type.startsWith("image/")
-  ) {
-    imageurltodownload = msg.file_url;
-    content += `
-      <img
-        src="${msg.file_url}"
-        class="chat-image"
-        alt="uploaded image"
-        data-full-image="${msg.file_url}"
+  msg.file_type &&
+  msg.file_type.startsWith("image/")
+) {
+
+  imageurltodownload = msg.file_url;
+
+  content += `
+    <img
+      src="${msg.file_url}"
+      class="chat-image"
+      alt="uploaded image"
+      data-full-image="${msg.file_url}"
+    >
+  `;
+}
+
+else if (msg.file_url) {
+
+  content += `
+    <div class="file-message">
+
+      <div class="file-info">
+        📄 ${msg.file_name}
+      </div>
+
+      <button
+        class="file-download-btn"
+         data-name="${msg.file_name}"
+         data-url="${msg.file_url}"
       >
-    `;
-  }
+        Download
+      </button>
+
+    </div>
+  `;
+}
 
   if (msg.message) {
 
@@ -101,6 +124,57 @@ image.addEventListener("click", () => {
 });
 }
 
+
+const downloadButton =
+  wrapper.querySelector(".file-download-btn");
+
+if (downloadButton) {
+
+  downloadButton.addEventListener(
+    "click",
+    async (e) => {
+
+      e.preventDefault();
+      console.log(downloadButton.dataset);
+      try {
+
+        const response =
+          await fetch(
+            downloadButton.dataset.url
+          );
+
+        const blob =
+          await response.blob();
+
+        const url =
+          URL.createObjectURL(blob);
+
+        const a =
+          document.createElement("a");
+
+        a.href = url;
+
+        a.download =
+          downloadButton.dataset.name;
+
+        document.body.appendChild(a);
+
+        a.click();
+
+        a.remove();
+
+        URL.revokeObjectURL(url);
+
+      } catch (err) {
+
+        console.error(
+          "Download failed:",
+          err
+        );
+      }
+    }
+  );
+}
 
   scrollToBottom();
 }

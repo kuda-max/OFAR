@@ -17,42 +17,48 @@ async function compressImage(file) {
 
 export async function uploadImage(file) {
 
-    const compressedFile =
-        await compressImage(file);
+    let fileToUpload = file;
 
-    console.log(
-        "Original:",
-        (file.size / 1024 / 1024).toFixed(2),
-        "MB"
-    );
+    // Only compress images
+    if (file.type.startsWith("image/")) {
 
-    console.log(
-        "Compressed:",
-        (
-            compressedFile.size /
-            1024 /
-            1024
-        ).toFixed(2),
-        "MB"
-    );
+        fileToUpload =
+            await compressImage(file);
+
+        console.log(
+            "Original:",
+            (file.size / 1024 / 1024).toFixed(2),
+            "MB"
+        );
+
+        console.log(
+            "Compressed:",
+            (
+                fileToUpload.size /
+                1024 /
+                1024
+            ).toFixed(2),
+            "MB"
+        );
+    }
 
     const fileName =
-        `${Date.now()}-${compressedFile.name}`;
+        `${Date.now()}-${file.name}`;
 
     const { error } =
         await supabaseClient.storage
             .from("uploads")
             .upload(
                 fileName,
-                compressedFile
+                fileToUpload
             );
-
+            console.log("File uploaded:", fileName);
     if (error) throw error;
 
     const { data } =
         supabaseClient.storage
             .from("uploads")
             .getPublicUrl(fileName);
-
+    console.log("Public URL data:", data);
     return data.publicUrl;
 }
