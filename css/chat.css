@@ -120,3 +120,19 @@
     font-size: 13px;
     font-style: italic;
 }
+
+
+.chat-image {
+
+    display: block;
+
+    max-width: 300px;
+
+    width: 100%;
+
+    border-radius: 12px;
+
+    margin-bottom: 8px;
+
+    cursor: pointer;
+}

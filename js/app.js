@@ -49,11 +49,29 @@ usernameInput.addEventListener("keydown", e => {
 });
 
 sendBtn.addEventListener("click", async () => {
-  const text = messageInput.value.trim();
-  if (text && currentUser) {
-    await sendMessage(text, currentUser, currentRoom);
+
+  const text =
+    messageInput.value.trim();
+
+  const file =
+    fileInput.files[0];
+
+  if (!text && !file) return;
+
+  if (currentUser) {
+
+    await sendMessage(
+      text,
+      currentUser,
+      currentRoom,
+      file
+    );
+
     messageInput.value = "";
+
+    fileInput.value = "";
   }
+
 });
 
 messageInput.addEventListener("keydown", e => {
@@ -71,6 +89,14 @@ leaveBtn.addEventListener("click", async () => {
   currentUser = null;
   currentRoom = "general";
 });
+
+//select and send the images 
+attachBtn.addEventListener(
+  "click",
+  () => {
+    fileInput.click();
+  }
+);
 
 // ===== START APP =====
 

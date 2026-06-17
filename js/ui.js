@@ -24,6 +24,7 @@ export function formatTime(dateString) {
 // `msg` should include `username`, `created_at` and `message`.
 // `currentUser` is used to apply different styling for your messages.
 export function addMessage(msg, currentUser) {
+
   const isMe = msg.username === currentUser;
 
   const wrapper = document.createElement("div");
@@ -32,19 +33,47 @@ export function addMessage(msg, currentUser) {
     ? "message-row me"
     : "message-row other";
 
+  let content = "";
+
+  if (
+    msg.file_type &&
+    msg.file_type.startsWith("image/")
+  ) {
+
+    content += `
+      <img
+        src="${msg.file_url}"
+        class="chat-image"
+        alt="uploaded image"
+      >
+    `;
+  }
+
+  if (msg.message) {
+
+    content += `
+      <div>
+        ${msg.message}
+      </div>
+    `;
+  }
+
   wrapper.innerHTML = `
     <div class="message-wrapper">
+
       <div class="message-meta">
         ${msg.username} • ${formatTime(msg.created_at)}
       </div>
 
       <div class="${isMe ? 'message-bubble me' : 'message-bubble other'}">
-        ${msg.message}
+        ${content}
       </div>
+
     </div>
   `;
 
   messagesEl.appendChild(wrapper);
+
   scrollToBottom();
 }
 

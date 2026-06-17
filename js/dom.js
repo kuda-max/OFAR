@@ -29,3 +29,6 @@ export const membersList = document.getElementById("membersList");
 export const mobileMembersList = document.getElementById("mobileMembersList");
 export const leaveBtn = document.getElementById("leaveBtn");
 
+//images
+export const fileInput = document.getElementById("fileInput");
+export const attachBtn = document.getElementById("attachBtn");

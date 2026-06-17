@@ -1,7 +1,7 @@
 // ===== MESSAGE OPERATIONS =====
 // Purpose: Load message history, handle realtime message subscription,
 // and provide a helper to send new messages to the backend.
-
+import { uploadImage } from "./uploads.js";
 import { supabaseClient } from "./supabase.js";
 import { addMessage } from "./ui.js";
 import { messagesEl } from "./dom.js";
@@ -57,9 +57,29 @@ export function subscribeToMessages(currentRoom, currentUser) {
 // ===== SEND MESSAGE =====
 
 // Send a new message to the `messages` table. Trims text and ignores empty.
-export async function sendMessage(messageText, currentUser, currentRoom) {
+export async function sendMessage(
+  messageText,
+  currentUser,
+  currentRoom,
+  file
+) {
+
   const text = messageText.trim();
-  if (!text) return;
+
+  if (!text && !file) return;
+
+  let fileUrl = null;
+  let fileName = null;
+  let fileType = null;
+
+  if (file) {
+
+    fileUrl = await uploadImage(file);
+
+    fileName = file.name;
+
+    fileType = file.type;
+  }
 
   const { error } = await supabaseClient
     .from("messages")
@@ -67,7 +87,10 @@ export async function sendMessage(messageText, currentUser, currentRoom) {
       username: currentUser,
       avatar: "😎",
       room: currentRoom,
-      message: text
+      message: text,
+      file_url: fileUrl,
+      file_name: fileName,
+      file_type: fileType
     });
 
   if (error) {
@@ -75,7 +98,6 @@ export async function sendMessage(messageText, currentUser, currentRoom) {
     return;
   }
 }
-
 // ===== CLEANUP =====
 
 // Remove the realtime subscription and clear the channel reference.
