@@ -32,3 +32,5 @@ export const leaveBtn = document.getElementById("leaveBtn");
 //images
 export const fileInput = document.getElementById("fileInput");
 export const attachBtn = document.getElementById("attachBtn");
+export const lightbox =
+    document.getElementById("lightbox");

@@ -1,5 +1,5 @@
 import { uploadImage }
-from "./js/uploads.js";
+from "../js/uploads.js";
 
 const imageInput =
     document.getElementById("imageInput");

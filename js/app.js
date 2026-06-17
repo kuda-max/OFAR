@@ -5,7 +5,7 @@
 // - Delegates auth, messaging and storage to other modules
 import { toggleSidebar } from "./ui.js";
 import { 
-  joinBtn, sendBtn, messageInput, usernameInput, roomInput, leaveBtn 
+  joinBtn, sendBtn, messageInput, usernameInput, roomInput, leaveBtn, lightbox 
 } from "./dom.js";
 import { joinChat, leaveChat } from "./auth.js";
 import { sendMessage } from "./messages.js";
@@ -98,6 +98,58 @@ attachBtn.addEventListener(
   }
 );
 
+//close lightbox when clicking outside the image
+
+window.closeLightbox = function () {
+    lightbox.classList.add("hidden");
+};
+
+//download the image when clicking the download button in the lightbox
+const downloadBtn =
+    document.getElementById("lightboxDownload");
+
+downloadBtn.addEventListener(
+    "click",
+    async (e) => {
+
+        e.preventDefault();
+        e.stopPropagation();
+
+        try {
+
+            const response =
+                await fetch(downloadBtn.href);
+
+            const blob =
+                await response.blob();
+
+            const url =
+                URL.createObjectURL(blob);
+
+            const a =
+                document.createElement("a");
+
+            a.href = url;
+
+            a.download = "image";
+
+            document.body.appendChild(a);
+
+            a.click();
+
+            a.remove();
+
+            URL.revokeObjectURL(url);
+
+        } catch (err) {
+
+            console.error(
+                "Download failed:",
+                err
+            );
+        }
+    }
+);
 // ===== START APP =====
 
 

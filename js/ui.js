@@ -4,7 +4,7 @@
 // data and network code.
 
 import { messagesEl, messagesContainer, membersList, mobileMembersList} from "./dom.js";
-
+let imageurltodownload = "";
 // Ensure the messages container is scrolled to show the latest message.
 export function scrollToBottom() {
   messagesContainer.scrollTop = messagesContainer.scrollHeight;
@@ -39,12 +39,13 @@ export function addMessage(msg, currentUser) {
     msg.file_type &&
     msg.file_type.startsWith("image/")
   ) {
-
+    imageurltodownload = msg.file_url;
     content += `
       <img
         src="${msg.file_url}"
         class="chat-image"
         alt="uploaded image"
+        data-full-image="${msg.file_url}"
       >
     `;
   }
@@ -73,6 +74,33 @@ export function addMessage(msg, currentUser) {
   `;
 
   messagesEl.appendChild(wrapper);
+  //make the image clickable to view in full size
+  const image =
+    wrapper.querySelector(".chat-image");
+
+if (image) {
+
+image.addEventListener("click", () => {
+
+    const imageUrl = image.dataset.fullImage;
+
+    const lightbox =
+        document.getElementById("lightbox");
+
+    const lightboxImg =
+        document.getElementById("lightboxImg");
+
+    const downloadBtn =
+        document.getElementById("lightboxDownload");
+
+    lightboxImg.src = imageUrl;
+
+    downloadBtn.href = imageUrl;
+
+    lightbox.classList.remove("hidden");
+});
+}
+
 
   scrollToBottom();
 }
@@ -128,3 +156,8 @@ export function toggleSidebar() {
   sidebar.classList.toggle("hidden");
   overlay.classList.toggle("hidden");
 }
+
+const downloadBtn =
+    document.getElementById("lightboxDownload");
+
+downloadBtn.href = imageurltodownload;
