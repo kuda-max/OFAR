@@ -1,4 +1,8 @@
 // ===== AUTHENTICATION =====
+// Purpose: Handle joining and leaving chat sessions.
+// - Shows/hides join and chat screens
+// - Loads message history and realtime subscriptions
+// - Manages presence heartbeats and cleanup
 
 import { supabaseClient } from "./supabase.js";
 import { 
@@ -19,6 +23,8 @@ let usersInterval = null;
 
 // ===== JOIN CHAT =====
 
+// Attempt to join the chat with `username` and `room`.
+// Returns `true` when join flow completes successfully.
 export async function joinChat(username, room) {
   if (!username) {
     alert("Enter a username");
@@ -72,6 +78,7 @@ export async function joinChat(username, room) {
 
 // ===== LEAVE CHAT =====
 
+// Leave the chat: remove presence, clear storage and unsubscribe.
 export async function leaveChat(currentUser) {
   if (currentUser) {
     await removeFromPresence(currentUser);

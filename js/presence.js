@@ -1,10 +1,15 @@
 // ===== PRESENCE TRACKING =====
+// Purpose: Track which users are online in a room.
+// - `updatePresence` writes/updates a heartbeat timestamp
+// - `loadOnlineUsers` reads recently-seen users for a room
+// - `removeFromPresence` deletes a user's presence on leave
 
 import { supabaseClient } from "./supabase.js";
 import { displayOnlineUsers, updateOnlineCount } from "./ui.js";
 
 // ===== UPDATE PRESENCE =====
 
+// Write or update the current user's last_seen timestamp for the room.
 export async function updatePresence(currentUser, currentRoom) {
   if (!currentUser) return;
 
@@ -19,6 +24,8 @@ export async function updatePresence(currentUser, currentRoom) {
 
 // ===== LOAD ONLINE USERS =====
 
+// Load users who have been seen within the last 30 seconds for `currentRoom`.
+// Calls UI helpers to display the list and update the count badge.
 export async function loadOnlineUsers(currentRoom) {
   const cutoff = new Date(
     Date.now() - 30000
@@ -41,6 +48,7 @@ export async function loadOnlineUsers(currentRoom) {
 
 // ===== REMOVE FROM PRESENCE =====
 
+// Remove the user's presence record when they leave the chat.
 export async function removeFromPresence(currentUser) {
   if (!currentUser) return;
 
@@ -50,4 +58,4 @@ export async function removeFromPresence(currentUser) {
     .eq("username", currentUser);
 }
 
-//removed logs
+// removed logs

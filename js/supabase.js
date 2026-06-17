@@ -1,4 +1,8 @@
 
+// Supabase client configuration
+// NOTE: This file contains the Supabase URL and anon/public key used by
+// the client. Treat non-public keys as secrets; the anon key is intended
+// for client-side use but consider moving sensitive operations to a server.
 const SUPABASE_URL = "https://vkmvmbobvrgmbdcokhbm.supabase.co";
 
 const SUPABASE_KEY =
@@ -6,6 +10,6 @@ const SUPABASE_KEY =
 
 
 export const supabaseClient = window.supabase.createClient(
-SUPABASE_URL,
-SUPABASE_KEY
+	SUPABASE_URL,
+	SUPABASE_KEY
 );

@@ -1,4 +1,7 @@
 // ===== LOCAL STORAGE HELPERS =====
+// Purpose: Small wrappers around `localStorage` for saving and
+// restoring the current username and room. Keeping these centralized
+// makes the intent explicit and eases future changes.
 
 export function saveUsername(username) {
   localStorage.setItem("username", username);

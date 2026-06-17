@@ -1,11 +1,16 @@
 // ===== UI HELPERS =====
+// Purpose: Small, reusable DOM helper functions for rendering messages
+// and online user lists. These keep rendering logic separate from
+// data and network code.
 
 import { messagesEl, messagesContainer, membersList, mobileMembersList} from "./dom.js";
 
+// Ensure the messages container is scrolled to show the latest message.
 export function scrollToBottom() {
   messagesContainer.scrollTop = messagesContainer.scrollHeight;
 }
 
+// Format an ISO timestamp into a localized short time string.
 export function formatTime(dateString) {
   return new Date(dateString).toLocaleTimeString([], {
     hour: "2-digit",
@@ -15,6 +20,9 @@ export function formatTime(dateString) {
 
 // ===== MESSAGE UI =====
 
+// Render a single message object into the message list.
+// `msg` should include `username`, `created_at` and `message`.
+// `currentUser` is used to apply different styling for your messages.
 export function addMessage(msg, currentUser) {
   const isMe = msg.username === currentUser;
 
@@ -42,6 +50,7 @@ export function addMessage(msg, currentUser) {
 
 // ===== ONLINE USERS UI =====
 
+// Update the small badge that shows how many users are online.
 export function updateOnlineCount(count) {
   const badge = document.getElementById("onlineCount");
   if (badge) {
@@ -51,6 +60,7 @@ export function updateOnlineCount(count) {
 
 
 //show the people in the room, and the green dot next to their name if they are online
+// Render the list of online `users` into the members lists (desktop + mobile).
 export function displayOnlineUsers(users) {
   membersList.innerHTML = "";
   mobileMembersList.innerHTML = "";
@@ -77,14 +87,15 @@ export function displayOnlineUsers(users) {
 
 
 // it freaking works now
+// Toggle visibility of the mobile sidebar and its overlay.
 export function toggleSidebar() {
 
-    const sidebar =
-        document.getElementById("mobileSidebar");
+  const sidebar =
+    document.getElementById("mobileSidebar");
 
-    const overlay =
-        document.getElementById("sidebarOverlay");
+  const overlay =
+    document.getElementById("sidebarOverlay");
 
-    sidebar.classList.toggle("hidden");
-    overlay.classList.toggle("hidden");
+  sidebar.classList.toggle("hidden");
+  overlay.classList.toggle("hidden");
 }

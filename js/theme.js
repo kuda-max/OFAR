@@ -1,3 +1,6 @@
+    // Theme toggling: remembers user preference in localStorage
+    // and falls back to system preference when not set.
+    // Controls: `#themeToggleBtn` and `#themeToggleIcon` in the UI.
         document.addEventListener("DOMContentLoaded", () => {
             const themeToggleBtn = document.getElementById("themeToggleBtn");
             const themeToggleIcon = document.getElementById("themeToggleIcon");

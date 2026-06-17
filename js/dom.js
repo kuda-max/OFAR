@@ -1,4 +1,7 @@
 // ===== DOM ELEMENTS =====
+// Purpose: Centralized references to DOM nodes used across the app.
+// Exporting these makes it easy for other modules to read/update the UI
+// without repeatedly querying the document.
 
 // Screens
 export const joinScreen = document.getElementById("joinScreen");

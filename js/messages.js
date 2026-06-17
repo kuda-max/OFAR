@@ -1,4 +1,6 @@
 // ===== MESSAGE OPERATIONS =====
+// Purpose: Load message history, handle realtime message subscription,
+// and provide a helper to send new messages to the backend.
 
 import { supabaseClient } from "./supabase.js";
 import { addMessage } from "./ui.js";
@@ -7,7 +9,8 @@ import { messagesEl } from "./dom.js";
 let realtimeChannel = null;
 
 // ===== LOAD HISTORY =====
-
+// Load message history for `currentRoom` and render each message.
+// `currentUser` is used to style/identify messages that come from you.
 export async function loadMessages(currentRoom, currentUser) {
   const { data, error } = await supabaseClient
     .from("messages")
@@ -26,6 +29,8 @@ export async function loadMessages(currentRoom, currentUser) {
 
 // ===== REALTIME SUBSCRIPTION =====
 
+// Subscribe to realtime inserts on the messages table for `currentRoom`.
+// Incoming messages are passed to `addMessage` for rendering.
 export function subscribeToMessages(currentRoom, currentUser) {
   if (realtimeChannel) {
     supabaseClient.removeChannel(realtimeChannel);
@@ -51,6 +56,7 @@ export function subscribeToMessages(currentRoom, currentUser) {
 
 // ===== SEND MESSAGE =====
 
+// Send a new message to the `messages` table. Trims text and ignores empty.
 export async function sendMessage(messageText, currentUser, currentRoom) {
   const text = messageText.trim();
   if (!text) return;
@@ -72,6 +78,7 @@ export async function sendMessage(messageText, currentUser, currentRoom) {
 
 // ===== CLEANUP =====
 
+// Remove the realtime subscription and clear the channel reference.
 export function unsubscribeFromMessages() {
   if (realtimeChannel) {
     supabaseClient.removeChannel(realtimeChannel);
