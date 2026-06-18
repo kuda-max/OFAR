@@ -23,6 +23,39 @@ export function formatTime(dateString) {
 // Render a single message object into the message list.
 // `msg` should include `username`, `created_at` and `message`.
 // `currentUser` is used to apply different styling for your messages.
+
+export function addDateSeparator(dateText) {
+
+  const separator =
+    document.createElement("div");
+
+  separator.className =
+    "date-separator";
+
+  separator.textContent =
+    dateText;
+
+  messagesEl.appendChild(
+    separator
+  );
+}
+
+export function addNewMessagesDivider() {
+
+  const divider =
+    document.createElement("div");
+
+  divider.className =
+    "new-messages-divider";
+
+  divider.textContent =
+    "NEW MESSAGES";
+
+  messagesEl.appendChild(
+    divider
+  );
+}
+
 export function addMessage(msg, currentUser) {
 
   const isMe = msg.username === currentUser;

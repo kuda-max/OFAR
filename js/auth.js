@@ -42,8 +42,22 @@ export async function joinChat(username, room) {
   chatScreen.classList.remove("hidden");
   chatScreen.classList.add("flex");
 
+  const lastSeen =
+  localStorage.getItem(
+    `lastSeen-${room}`
+  );
+
   // Load messages
-  await loadMessages(room, username);
+  await loadMessages(
+  room,
+  username,
+  lastSeen
+);
+
+localStorage.setItem(
+  `lastSeen-${room}`,
+  new Date().toISOString()
+);
 
   // Start realtime
   subscribeToMessages(room, username);
