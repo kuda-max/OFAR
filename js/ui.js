@@ -124,10 +124,9 @@ else if (msg.file_url) {
         ${msg.username} • ${formatTime(msg.created_at)}
       </div>
 
-      <div class="${isMe ? 'message-bubble me' : 'message-bubble other'}">
-        ${content}
-      </div>
+<div class="${isMe ? 'message-bubble me' : 'message-bubble other'}">
 
+  ${content}
     </div>
   `;
 
@@ -210,9 +209,10 @@ if (downloadButton) {
     }
   );
 }
-
-  scrollToBottom();
+scrollToBottom();
 }
+
+
 
 // ===== ONLINE USERS UI =====
 
