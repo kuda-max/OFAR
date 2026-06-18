@@ -3,7 +3,9 @@
 // and online user lists. These keep rendering logic separate from
 // data and network code.
 
-import { messagesEl, messagesContainer, membersList, mobileMembersList} from "./dom.js";
+import { messagesEl, messagesContainer, membersList, mobileMembersList, emojiBtn, emojiPicker} from "./dom.js";
+import { populateEmojiGrid } from "./emojis.js";
+
 let imageurltodownload = "";
 // Ensure the messages container is scrolled to show the latest message.
 export function scrollToBottom() {
@@ -268,3 +270,43 @@ const downloadBtn =
     document.getElementById("lightboxDownload");
 
 downloadBtn.href = imageurltodownload;
+
+
+emojiBtn.addEventListener(
+  "click",
+  () => {
+    populateEmojiGrid();
+    emojiPicker.classList.toggle(
+      "hidden"
+    );
+
+  }
+);
+
+document.addEventListener(
+  "click",
+  (e) => {
+
+    const clickedEmojiButton =
+      emojiBtn.contains(
+        e.target
+      );
+
+    const clickedPicker =
+      emojiPicker.contains(
+        e.target
+      );
+
+    if (
+      !clickedEmojiButton &&
+      !clickedPicker
+    ) {
+
+      emojiPicker.classList.add(
+        "hidden"
+      );
+
+    }
+
+  }
+);

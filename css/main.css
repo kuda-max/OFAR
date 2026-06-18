@@ -18,9 +18,11 @@
             --accent-glow: rgba(217, 70, 239, 0.15);
             --primary-glow: rgba(79, 70, 229, 0.2);
             --grid-color: rgba(255, 255, 255, 0.03);
+            --text-light: rgba(255,255,255,0.08);
         }
 
         :root[data-theme="light"] {
+            --text-light: rgba(0,0,0,0.08);
             --bg-main: #f3f4f6;
             --text-main: #111827;
             --text-muted: #4b5563;
@@ -456,23 +458,6 @@
         #sendBtn:disabled {
             opacity: 0.4;
             pointer-events: none;
-        }
-
-        /* Interactive Pickers & Overlays */
-        #emojiPicker {
-            position: fixed;
-            z-index: 50;
-            border-radius: 16px;
-            padding: 12px;
-            width: 288px;
-            max-height: 288px;
-            overflow-y: auto;
-        }
-
-        #emojiGrid {
-            display: grid;
-            grid-template-columns: repeat(8, 1fr);
-            gap: 4px;
         }
 
         #lightbox {

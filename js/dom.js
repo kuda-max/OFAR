@@ -32,8 +32,10 @@ export const leaveBtn = document.getElementById("leaveBtn");
 //images
 export const fileInput = document.getElementById("fileInput");
 export const attachBtn = document.getElementById("attachBtn");
-export const lightbox =
-    document.getElementById("lightbox");
+export const lightbox =document.getElementById("lightbox");
 
-export const uploadStatus =
-    document.getElementById("uploadStatus");
+export const uploadStatus =document.getElementById("uploadStatus");
+
+//emojis
+export const emojiBtn = document.getElementById("emojiBtn");
+export const emojiPicker = document.getElementById("emojiPicker");
