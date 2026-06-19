@@ -80,10 +80,6 @@ export function addMessage(
   let content = "";
 
   if (repliedMessage) {
-    console.log(
-  "Building reply snippet for:",
-  repliedMessage
-);
   content += `
     <div class="reply-snippet">
 
@@ -236,7 +232,6 @@ if (downloadButton) {
     async (e) => {
 
       e.preventDefault();
-      console.log(downloadButton.dataset);
       try {
 
         const response =
