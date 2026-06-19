@@ -6,6 +6,11 @@ import { supabaseClient } from "./supabase.js";
 import { addMessage, addDateSeparator, addNewMessagesDivider} from "./ui.js";
 import { messagesEl } from "./dom.js";
 
+const notificationSound =
+  new Audio(
+    "./assets/notification.wav"
+  );
+
 let realtimeChannel = null;
 
 // ===== LOAD HISTORY =====
@@ -70,7 +75,7 @@ export async function loadMessages(
         today
       ) {
 
-        label = "Today";
+        label = "Lero";
 
       }
 
@@ -79,7 +84,7 @@ export async function loadMessages(
         yesterday
       ) {
 
-        label = "Yesterday";
+        label = "Dzulo";
 
       }
 
@@ -163,7 +168,8 @@ export function subscribeToMessages(currentRoom, currentUser) {
           "/icon-192.png"
       }
     );
-
+    notificationSound.currentTime = 0;
+    notificationSound.play();
   }
 
 }
