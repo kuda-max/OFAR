@@ -8,7 +8,7 @@ import { messagesEl } from "./dom.js";
 
 const notificationSound =
   new Audio(
-    "./assets/notification.wav"
+    "./assets/ringtone.wav"
   );
 
 let realtimeChannel = null;
@@ -41,10 +41,16 @@ export async function loadMessages(
     return;
   }
 
+  
   messagesEl.innerHTML = "";
 
-  let lastDate = null;
+const messageMap = {};
 
+data.forEach(msg => {
+  messageMap[msg.id] = msg;
+});
+
+let lastDate = null;
   data.forEach(msg => {
 
     const messageDate =
@@ -108,11 +114,11 @@ export async function loadMessages(
   newMessagesDividerAdded =
     true;
 }
-
-    addMessage(
-      msg,
-      currentUser
-    );
+addMessage(
+  msg,
+  currentUser,
+  messageMap[msg.reply_to]
+);
 
   });
 
@@ -121,7 +127,7 @@ export async function loadMessages(
 
 // Subscribe to realtime inserts on the messages table for `currentRoom`.
 // Incoming messages are passed to `addMessage` for rendering.
-export function subscribeToMessages(currentRoom, currentUser) {
+export function subscribeToMessages(currentRoom, currentUser, messageMap) {
   if (realtimeChannel) {
     supabaseClient.removeChannel(realtimeChannel);
   }
@@ -135,42 +141,33 @@ export function subscribeToMessages(currentRoom, currentUser) {
         schema: "public",
         table: "messages"
       },
-      payload => {
+async payload => {
 
-  const msg =
-    payload.new;
+  const msg = payload.new;
 
   if (
-    msg.room !==
-    currentRoom
+    msg.room !== currentRoom
   ) return;
+
+  let repliedMessage = null;
+
+  if (msg.reply_to) {
+
+    const { data } =
+      await supabaseClient
+        .from("messages")
+        .select("*")
+        .eq("id", msg.reply_to)
+        .single();
+
+    repliedMessage = data;
+  }
 
   addMessage(
     msg,
-    currentUser
+    currentUser,
+    repliedMessage
   );
-
-  if (
-    msg.username !==
-      currentUser &&
-    document.hidden &&
-    Notification.permission ===
-      "granted"
-  ) {
-
-    new Notification(
-      msg.username,
-      {
-        body:
-          msg.message ||
-           `📎 ${msg.file_name}`,
-        icon:
-          "/icon-192.png"
-      }
-    );
-    notificationSound.currentTime = 0;
-    notificationSound.play();
-  }
 
 }
     )
@@ -184,7 +181,8 @@ export async function sendMessage(
   messageText,
   currentUser,
   currentRoom,
-  file
+  file,
+  replyTo = null
 ) {
 
   const text = messageText.trim();
@@ -205,16 +203,19 @@ export async function sendMessage(
   }
 
   const { error } = await supabaseClient
-    .from("messages")
-    .insert({
-      username: currentUser,
-      avatar: "😎",
-      room: currentRoom,
-      message: text,
-      file_url: fileUrl,
-      file_name: fileName,
-      file_type: fileType
-    });
+  .from("messages")
+  .insert({
+    username: currentUser,
+    avatar: "😎",
+    room: currentRoom,
+    message: text,
+    file_url: fileUrl,
+    file_name: fileName,
+    file_type: fileType,
+    reply_to: replyTo
+  });
+
+
 
   if (error) {
     console.error(error);

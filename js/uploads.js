@@ -59,6 +59,5 @@ export async function uploadImage(file) {
         supabaseClient.storage
             .from("uploads")
             .getPublicUrl(fileName);
-    console.log("Public URL data:", data);
     return data.publicUrl;
 }

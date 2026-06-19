@@ -10,6 +10,10 @@ import {
 import { joinChat, leaveChat } from "./auth.js";
 import { sendMessage } from "./messages.js";
 import { getSavedUsername, getSavedRoom } from "./storage.js";
+import {
+  replyingTo,
+  setReplyingTo
+} from "./state.js";
 
 let currentUser = null;
 let currentRoom = "general";
@@ -88,17 +92,24 @@ sendBtn.addEventListener("click", async () => {
     }
 
     if (currentUser) {
-
       await sendMessage(
         text,
         currentUser,
         currentRoom,
-        file
+        file,
+        replyingTo?.id
       );
 
       messageInput.value = "";
 
       fileInput.value = "";
+
+      setReplyingTo(null);
+
+      document.getElementById(
+          "replyPreview"
+        )
+        ?.remove();
     }
 
     uploadStatus.textContent =

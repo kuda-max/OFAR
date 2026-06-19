@@ -5,6 +5,10 @@
 
 import { messagesEl, messagesContainer, membersList, mobileMembersList, emojiBtn, emojiPicker} from "./dom.js";
 import { populateEmojiGrid } from "./emojis.js";
+import {
+  replyingTo,
+  setReplyingTo
+} from "./state.js";
 
 let imageurltodownload = "";
 // Ensure the messages container is scrolled to show the latest message.
@@ -19,6 +23,7 @@ export function formatTime(dateString) {
     minute: "2-digit"
   });
 }
+
 
 // ===== MESSAGE UI =====
 
@@ -58,7 +63,11 @@ export function addNewMessagesDivider() {
   );
 }
 
-export function addMessage(msg, currentUser) {
+export function addMessage(
+  msg,
+  currentUser,
+  repliedMessage = null
+) {
 
   const isMe = msg.username === currentUser;
 
@@ -69,6 +78,30 @@ export function addMessage(msg, currentUser) {
     : "message-row other";
 
   let content = "";
+
+  if (repliedMessage) {
+    console.log(
+  "Building reply snippet for:",
+  repliedMessage
+);
+  content += `
+    <div class="reply-snippet">
+
+      <div class="reply-snippet-user">
+        ↩ ${repliedMessage.username}
+      </div>
+
+      <div class="reply-snippet-text">
+        ${
+          repliedMessage.message ||
+          repliedMessage.file_name ||
+          "File"
+        }
+      </div>
+
+    </div>
+  `;
+}
 
   if (
   msg.file_type &&
@@ -117,20 +150,54 @@ else if (msg.file_url) {
     `;
   }
 
-  wrapper.innerHTML = `
-    <div class="message-wrapper">
+ 
+wrapper.innerHTML = `
+  <div class="message-wrapper">
 
-      <div class="message-meta">
-        ${msg.username} • ${formatTime(msg.created_at)}
-      </div>
-
-<div class="${isMe ? 'message-bubble me' : 'message-bubble other'}">
-
-  ${content}
+    <div class="message-meta">
+      ${msg.username} • ${formatTime(msg.created_at)}
     </div>
-  `;
 
+    <div class="${
+      isMe
+        ? "message-bubble me"
+        : "message-bubble other"
+    }">
+
+      ${content}
+
+    </div>
+
+  </div>
+`;
+
+
+
+
+  const bubble =
+    wrapper.querySelector(
+      ".message-bubble"
+    );
+
+  bubble.addEventListener(
+    "click",
+    () => {
+      setReplyingTo({
+  id: msg.id,
+  username: msg.username,
+  preview:
+    msg.message ||
+    msg.file_name ||
+    "File"
+});
+
+      showReplyPreview();
+
+    }
+  );
   messagesEl.appendChild(wrapper);
+
+
   //make the image clickable to view in full size
   const image =
     wrapper.querySelector(".chat-image");
@@ -310,3 +377,56 @@ document.addEventListener(
 
   }
 );
+
+function showReplyPreview() {
+
+  const container =
+    document.getElementById(
+      "replyContainer"
+    );
+
+  if (!replyingTo) {
+
+    container.innerHTML = "";
+
+    return;
+  }
+
+  container.innerHTML = `
+    <div class="reply-preview">
+
+      <div class="reply-header">
+        Replying to ${replyingTo.username}
+
+        <button
+          id="cancelReplyBtn"
+        >
+          ✕
+        </button>
+
+      </div>
+
+      <div class="reply-text">
+        ${replyingTo.preview}
+      </div>
+
+    </div>
+  `;
+
+  document
+    .getElementById(
+      "cancelReplyBtn"
+    )
+    .addEventListener(
+      "click",
+      () => {
+
+        setReplyingTo(
+  null
+);
+
+        showReplyPreview();
+
+      }
+    );
+}
