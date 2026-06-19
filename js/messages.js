@@ -131,10 +131,42 @@ export function subscribeToMessages(currentRoom, currentUser) {
         table: "messages"
       },
       payload => {
-        const msg = payload.new;
-        if (msg.room !== currentRoom) return;
-        addMessage(msg, currentUser);
+
+  const msg =
+    payload.new;
+
+  if (
+    msg.room !==
+    currentRoom
+  ) return;
+
+  addMessage(
+    msg,
+    currentUser
+  );
+
+  if (
+    msg.username !==
+      currentUser &&
+    document.hidden &&
+    Notification.permission ===
+      "granted"
+  ) {
+
+    new Notification(
+      msg.username,
+      {
+        body:
+          msg.message ||
+           `📎 ${msg.file_name}`,
+        icon:
+          "/icon-192.png"
       }
+    );
+
+  }
+
+}
     )
     .subscribe();
 }

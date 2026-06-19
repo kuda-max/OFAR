@@ -19,8 +19,22 @@ let currentRoom = "general";
 // Initialize app state on page load. If a saved username exists,
 // restore the session and join the previously used room.
 function initApp() {
+
+    if (
+    "Notification" in window &&
+    Notification.permission ===
+      "default"
+  ) {
+
+    Notification
+      .requestPermission();
+
+  }
+
   // Check for saved session
-  const savedUsername = getSavedUsername();
+  const savedUsername =
+    getSavedUsername();
+
   
   if (savedUsername) {
     const savedRoom = getSavedRoom() || "general";
