@@ -24,22 +24,6 @@ export async function uploadImage(file) {
 
         fileToUpload =
             await compressImage(file);
-
-        console.log(
-            "Original:",
-            (file.size / 1024 / 1024).toFixed(2),
-            "MB"
-        );
-
-        console.log(
-            "Compressed:",
-            (
-                fileToUpload.size /
-                1024 /
-                1024
-            ).toFixed(2),
-            "MB"
-        );
     }
 
     const fileName =
@@ -52,7 +36,6 @@ export async function uploadImage(file) {
                 fileName,
                 fileToUpload
             );
-            console.log("File uploaded:", fileName);
     if (error) throw error;
 
     const { data } =

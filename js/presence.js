@@ -7,6 +7,43 @@
 import { supabaseClient } from "./supabase.js";
 import { displayOnlineUsers, updateOnlineCount } from "./ui.js";
 
+export async function updateTyping(
+  currentUser,
+  currentRoom
+) {
+
+  console.log(
+    "Updating typing:",
+    currentUser,
+    currentRoom
+  );
+
+const { data, error } =
+  await supabaseClient
+    .from("typing_status")
+    .upsert({
+      username: currentUser,
+      room: currentRoom,
+      is_typing: true,
+      updated_at:
+        new Date().toISOString()
+    })
+    .select();
+
+console.log(
+  "Returned row:",
+  data
+);
+
+console.log(
+  "Error:",
+  error
+);
+  console.log(data);
+  console.log(error);
+
+}
+
 // ===== UPDATE PRESENCE =====
 
 // Write or update the current user's last_seen timestamp for the room.

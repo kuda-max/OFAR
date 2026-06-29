@@ -14,6 +14,9 @@ import {
   replyingTo,
   setReplyingTo
 } from "./state.js";
+import {
+  updateTyping
+} from "./presence.js";
 
 let currentUser = null;
 let currentRoom = "general";
@@ -148,6 +151,26 @@ messageInput.addEventListener("keydown", e => {
     sendBtn.click();
   }
 });
+messageInput.addEventListener(
+  "input",
+  () => {
+
+    console.log("Typing detected");
+
+    if (
+      currentUser &&
+      currentRoom
+    ) {
+
+      updateTyping(
+        currentUser,
+        currentRoom
+      );
+
+    }
+
+  }
+);
 
 leaveBtn.addEventListener("click", async () => {
   const confirmed = confirm("Leave chat?");

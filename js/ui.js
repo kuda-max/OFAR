@@ -72,7 +72,7 @@ export function addMessage(
   const isMe = msg.username === currentUser;
 
   const wrapper = document.createElement("div");
-
+  wrapper.id =`message-${msg.id}`;
   wrapper.className = isMe
     ? "message-row me"
     : "message-row other";
@@ -81,8 +81,9 @@ export function addMessage(
 
   if (repliedMessage) {
   content += `
-    <div class="reply-snippet">
-
+    <div class="reply-snippet"
+      data-target="${repliedMessage.id}"
+      >
       <div class="reply-snippet-user">
         ↩ ${repliedMessage.username}
       </div>
@@ -192,7 +193,52 @@ wrapper.innerHTML = `
     }
   );
   messagesEl.appendChild(wrapper);
+  const replySnippet =
+  wrapper.querySelector(
+    ".reply-snippet"
+  );
 
+if (replySnippet) {
+
+  replySnippet.addEventListener(
+    "click",
+    (e) => {
+
+      e.stopPropagation();
+
+      const targetId =
+        replySnippet.dataset.target;
+
+      const target =
+        document.getElementById(
+          `message-${targetId}`
+        );
+
+      if (target) {
+
+        target.scrollIntoView({
+          behavior: "smooth",
+          block: "center"
+        });
+
+        target.classList.add(
+          "message-highlight"
+        );
+
+        setTimeout(() => {
+
+          target.classList.remove(
+            "message-highlight"
+          );
+
+        }, 2000);
+
+      }
+
+    }
+  );
+
+}
 
   //make the image clickable to view in full size
   const image =
@@ -271,7 +317,7 @@ if (downloadButton) {
     }
   );
 }
-scrollToBottom();
+//scrollToBottom();
 }
 
 

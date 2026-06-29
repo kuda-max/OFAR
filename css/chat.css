@@ -110,15 +110,6 @@
     justify-content: flex-start;
 }
 
-#typingIndicator {
-    min-height: 20px;
-    padding: 0 16px 8px;
-    color: var(--text-placeholder);
-    font-size: 13px;
-    font-style: italic;
-}
-
-
 .chat-image {
 
     display: block;
@@ -433,4 +424,34 @@
     text-overflow: ellipsis;
 
     white-space: nowrap;
+}
+
+.message-highlight {
+
+  animation:
+    messageFlash
+    2s ease;
+
+}
+
+@keyframes messageFlash {
+
+  0% {
+
+    transform: scale(1);
+
+  }
+
+  50% {
+
+    transform: scale(1.03);
+
+  }
+
+  100% {
+
+    transform: scale(1);
+
+  }
+
 }
